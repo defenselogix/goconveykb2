@@ -1,0 +1,200 @@
+.article-editor {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.editor-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.editor-btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.editor-btn.save {
+  background: #2563eb;
+  color: white;
+}
+
+.editor-btn.save:hover {
+  background: #1d4ed8;
+}
+
+.editor-btn.save:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
+
+.editor-btn.cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.editor-btn.cancel:hover {
+  background: #e5e7eb;
+}
+
+.editor-error {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.editor-field {
+  margin-bottom: 20px;
+}
+
+.editor-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.editor-title-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.editor-title-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px;
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  align-items: center;
+}
+
+.toolbar button {
+  padding: 6px 10px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #374151;
+  transition: all 0.15s;
+  line-height: 1;
+}
+
+.toolbar button:hover {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 24px;
+  background: #d1d5db;
+  margin: 0 4px;
+}
+
+.editor-content {
+  min-height: 400px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding: 20px;
+  border: 1px solid #d1d5db;
+  border-radius: 0 0 6px 6px;
+  background: white;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #1f2937;
+  outline: none;
+}
+
+.editor-content:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.editor-content h2 {
+  font-size: 1.4rem;
+  margin: 1.2em 0 0.6em;
+}
+
+.editor-content h3 {
+  font-size: 1.15rem;
+  margin: 1em 0 0.5em;
+}
+
+.editor-content p {
+  margin: 0.6em 0;
+}
+
+.editor-content ul, .editor-content ol {
+  padding-left: 1.5em;
+  margin: 0.6em 0;
+}
+
+.editor-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.editor-content a {
+  color: #2563eb;
+}
+
+/* Edit button in article view */
+.edit-article-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.edit-article-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+  border-color: #9ca3af;
+}
