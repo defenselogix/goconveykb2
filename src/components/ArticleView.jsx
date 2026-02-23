@@ -1,21 +1,40 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { apiPost } from '../api/client';
+import { apiPost, apiPut } from '../api/client';
 import BookmarkButton from './BookmarkButton';
+import ArticleEditor from './ArticleEditor';
 
-export default function ArticleView({ article, parent, siblings, onNavigate }) {
+export default function ArticleView({ article, parent, siblings, onNavigate, onArticleUpdated }) {
   const { user } = useAuth();
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setEditing(false);
   }, [article.id]);
 
-  // Record reading history when a logged-in user views an article
   useEffect(() => {
     if (user) {
       apiPost('/history', { articleId: article.id }).catch(() => {});
     }
   }, [article.id, user]);
+
+  const handleSave = async ({ title, content }) => {
+    await apiPut(`/articles/${article.id}`, {
+      title,
+      content,
+      category: article.category,
+      parentId: article.parentId || null,
+    });
+    setEditing(false);
+    if (onArticleUpdated) onArticleUpdated();
+  };
+
+  const isAdmin = user?.role === 'admin';
+
+  if (editing) {
+    return <ArticleEditor article={article} onSave={handleSave} onCancel={() => setEditing(false)} />;
+  }
 
   return (
     <div className="article-view">
@@ -29,7 +48,14 @@ export default function ArticleView({ article, parent, siblings, onNavigate }) {
 
       <div className="article-title-row">
         <h1 className="article-title">{article.title}</h1>
-        <BookmarkButton articleId={article.id} />
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          {isAdmin && (
+            <button className="edit-article-btn" onClick={() => setEditing(true)}>
+              ✏️ Edit
+            </button>
+          )}
+          <BookmarkButton articleId={article.id} />
+        </div>
       </div>
       <div className="article-meta">
         {parent && <span>Section: {parent.title}</span>}
