@@ -13,6 +13,7 @@ import AdminDashboard from './components/AdminDashboard';
 import ArticleEditor from './components/ArticleEditor';
 import BookmarksPage from './components/BookmarksPage';
 import HistoryPage from './components/HistoryPage';
+import AdminBar from './components/AdminBar';
 import './App.css';
 
 function ProtectedRoute({ children }) {
@@ -140,6 +141,7 @@ function AppContent() {
           />
         </div>
         <div className="header-spacer" />
+        <AdminBar />
         <UserMenu />
       </header>
 
@@ -165,7 +167,7 @@ function AppContent() {
           ) : (
             <Routes>
               <Route path="/" element={<HomePage articles={articles} onNavigate={(id) => navigate(`/article/${id}`)} />} />
-              <Route path="/article/:id" element={<ArticleViewWrapper findArticle={findArticle} articles={articles} onNavigate={(id) => navigate(`/article/${id}`)} />} />
+              <Route path="/article/:id" element={<ArticleViewWrapper findArticle={findArticle} articles={articles} onNavigate={(id) => navigate(`/article/${id}`)} onArticleUpdated={refreshArticles} />} />
               <Route path="/search/:query" element={<SearchResults allArticles={allArticles} onNavigate={(id) => navigate(`/article/${id}`)} />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
@@ -182,7 +184,7 @@ function AppContent() {
   );
 }
 
-function ArticleViewWrapper({ findArticle, articles, onNavigate }) {
+function ArticleViewWrapper({ findArticle, articles, onNavigate, onArticleUpdated }) {
   const { id } = useParams();
   const article = findArticle(id);
   if (!article) {
@@ -214,6 +216,7 @@ function ArticleViewWrapper({ findArticle, articles, onNavigate }) {
       parent={parent}
       siblings={siblings}
       onNavigate={onNavigate}
+      onArticleUpdated={onArticleUpdated}
     />
   );
 }
