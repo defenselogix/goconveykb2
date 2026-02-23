@@ -29,7 +29,7 @@ export default function ArticleEditor({ article, onSave, onCancel }) {
       const content = editorRef.current.innerHTML;
       await onSave({ title, content });
     } catch (err) {
-      setError(err.message || 'Failed to save');
+      setError(err.error || err.message || 'Failed to save');
     } finally {
       setSaving(false);
     }
