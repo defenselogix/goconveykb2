@@ -1,9 +1,21 @@
 import { useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { apiPost } from '../api/client';
+import BookmarkButton from './BookmarkButton';
 
 export default function ArticleView({ article, parent, siblings, onNavigate }) {
+  const { user } = useAuth();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [article.id]);
+
+  // Record reading history when a logged-in user views an article
+  useEffect(() => {
+    if (user) {
+      apiPost('/history', { articleId: article.id }).catch(() => {});
+    }
+  }, [article.id, user]);
 
   return (
     <div className="article-view">
@@ -15,7 +27,10 @@ export default function ArticleView({ article, parent, siblings, onNavigate }) {
         </div>
       )}
 
-      <h1 className="article-title">{article.title}</h1>
+      <div className="article-title-row">
+        <h1 className="article-title">{article.title}</h1>
+        <BookmarkButton articleId={article.id} />
+      </div>
       <div className="article-meta">
         {parent && <span>Section: {parent.title}</span>}
         {!parent && article.category && (

@@ -1,32 +1,43 @@
 {
   "name": "eons-knowledgebase",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "EONS Knowledge Base - Enterprise Omnichannel Notification System",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"nodemon server/index.js\"",
+    "dev:client": "vite",
+    "dev:server": "nodemon server/index.js",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "serve dist -s -l tcp://0.0.0.0:$PORT"
+    "start": "node server/index.js",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.13.0",
-    "serve": "^14.2.4"
+    "react-quill-new": "^3.3.4",
+    "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
+    "concurrently": "^9.1.2",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "nodemon": "^3.1.9",
     "vite": "^7.3.1"
   }
 }

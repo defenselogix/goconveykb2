@@ -1,17 +1,67 @@
 import { useState, useMemo, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom';
-import articles from './data/articles.json';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { apiGet } from './api/client';
 import Sidebar from './components/Sidebar';
 import ArticleView from './components/ArticleView';
 import HomePage from './components/HomePage';
 import SearchResults from './components/SearchResults';
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
+import UserMenu from './components/UserMenu';
+import AdminDashboard from './components/AdminDashboard';
+import ArticleEditor from './components/ArticleEditor';
+import BookmarksPage from './components/BookmarksPage';
+import HistoryPage from './components/HistoryPage';
 import './App.css';
+
+function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/login');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) return null;
+  if (!user) return null;
+  return children;
+}
+
+function AdminRoute({ children }) {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && (!user || user.role !== 'admin')) {
+      navigate('/');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) return null;
+  if (!user || user.role !== 'admin') return null;
+  return children;
+}
 
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 900);
   const [headerSearch, setHeaderSearch] = useState('');
+  const [articles, setArticles] = useState([]);
+  const [articlesLoading, setArticlesLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Fetch articles from API
+  useEffect(() => {
+    apiGet('/articles')
+      .then(data => {
+        setArticles(data);
+        setArticlesLoading(false);
+      })
+      .catch(() => setArticlesLoading(false));
+  }, []);
 
   const allArticles = useMemo(() => {
     const flat = [];
@@ -24,7 +74,7 @@ function AppContent() {
       }
     }
     return flat;
-  }, []);
+  }, [articles]);
 
   // Close sidebar on mobile when navigating
   useEffect(() => {
@@ -42,12 +92,21 @@ function AppContent() {
     }
   };
 
+  // Reload articles after admin edits
+  const refreshArticles = () => {
+    apiGet('/articles').then(data => setArticles(data)).catch(() => {});
+  };
+
   const isHome = location.pathname === '/' || location.pathname === '';
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+  const isAdminPage = location.pathname.startsWith('/admin');
+  const isListPage = location.pathname === '/bookmarks' || location.pathname === '/history';
+  const showSidebar = !isHome && !isAuthPage && !isAdminPage && !isListPage;
 
   return (
     <div className="app">
       <header className="app-header">
-        {!isHome && (
+        {showSidebar && (
           <button
             className="menu-toggle"
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -81,10 +140,11 @@ function AppContent() {
           />
         </div>
         <div className="header-spacer" />
+        <UserMenu />
       </header>
 
       <div className="app-body">
-        {!isHome && (
+        {showSidebar && (
           <>
             {sidebarOpen && (
               <div
@@ -99,12 +159,23 @@ function AppContent() {
             />
           </>
         )}
-        <main className={`main-content ${isHome || !sidebarOpen ? 'full-width' : ''}`}>
-          <Routes>
-            <Route path="/" element={<HomePage articles={articles} onNavigate={(id) => navigate(`/article/${id}`)} />} />
-            <Route path="/article/:id" element={<ArticleViewWrapper findArticle={findArticle} articles={articles} onNavigate={(id) => navigate(`/article/${id}`)} />} />
-            <Route path="/search/:query" element={<SearchResults allArticles={allArticles} onNavigate={(id) => navigate(`/article/${id}`)} />} />
-          </Routes>
+        <main className={`main-content ${!showSidebar || !sidebarOpen ? 'full-width' : ''}`}>
+          {articlesLoading ? (
+            <div className="loading-state">Loading...</div>
+          ) : (
+            <Routes>
+              <Route path="/" element={<HomePage articles={articles} onNavigate={(id) => navigate(`/article/${id}`)} />} />
+              <Route path="/article/:id" element={<ArticleViewWrapper findArticle={findArticle} articles={articles} onNavigate={(id) => navigate(`/article/${id}`)} />} />
+              <Route path="/search/:query" element={<SearchResults allArticles={allArticles} onNavigate={(id) => navigate(`/article/${id}`)} />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/bookmarks" element={<ProtectedRoute><BookmarksPage /></ProtectedRoute>} />
+              <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
+              <Route path="/admin" element={<AdminRoute><AdminDashboard onRefresh={refreshArticles} /></AdminRoute>} />
+              <Route path="/admin/new" element={<AdminRoute><ArticleEditor onSaved={refreshArticles} /></AdminRoute>} />
+              <Route path="/admin/edit/:id" element={<AdminRoute><ArticleEditor onSaved={refreshArticles} /></AdminRoute>} />
+            </Routes>
+          )}
         </main>
       </div>
     </div>
@@ -150,7 +221,9 @@ function ArticleViewWrapper({ findArticle, articles, onNavigate }) {
 export default function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </BrowserRouter>
   );
 }
