@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(copy:*)",
+      "Bash(npm run build:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(node -e:*)",
+      "Bash(python3:*)",
+      "Bash(py:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(pip3 install:*)",
+      "Bash(/c/Python313/python.exe:*)",
+      "Bash(powershell -NoProfile -Command \"$json = Get-Content articles.json -Raw | ConvertFrom-Json; $json | Where-Object {$_id -eq ''whats-new''} | ConvertTo-Json -Depth 10\")",
+      "Bash(powershell:*)"
+    ]
+  }
+}
