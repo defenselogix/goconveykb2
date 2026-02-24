@@ -63,7 +63,7 @@ export default function HomePage({ articles, onNavigate }) {
       <div className="home-hero">
         <h2>EONS Knowledge Base</h2>
         <p>
-          Your guide to the Enterprise Omnichannel Notification System.
+          Your guide to the Emergency Outage Notifications System.
           Find help with campaigns, templates, lists, and more.
         </p>
         <div className="home-search">
