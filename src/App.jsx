@@ -16,6 +16,19 @@ import HistoryPage from './components/HistoryPage';
 import AdminBar from './components/AdminBar';
 import './App.css';
 
+function ConveyLogo() {
+  return (
+    <svg className="convey-logo" viewBox="0 0 240 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 2L32 12L22 12L12 12L22 2Z" fill="currentColor"/>
+      <path d="M22 42L12 32L22 32L32 32L22 42Z" fill="currentColor"/>
+      <path d="M2 22L12 12L12 22L12 32L2 22Z" fill="currentColor"/>
+      <path d="M42 22L32 32L32 22L32 12L42 22Z" fill="currentColor"/>
+      <path d="M36 16L44 22L36 28" stroke="currentColor" strokeWidth="3.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+      <text x="56" y="31" fill="currentColor" fontFamily="'DM Sans', system-ui, sans-serif" fontSize="28" fontWeight="700" letterSpacing="4">CONVEY</text>
+    </svg>
+  );
+}
+
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -121,24 +134,7 @@ function AppContent() {
           </button>
         )}
         <div className="header-brand" onClick={() => navigate('/')}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-          </svg>
-          <span>Convey Knowledge Base</span>
-        </div>
-        <div className="header-search">
-          <svg className="header-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <input
-            type="search"
-            placeholder="Search articles..."
-            value={headerSearch}
-            onChange={(e) => setHeaderSearch(e.target.value)}
-            onKeyDown={handleHeaderSearch}
-          />
+          <ConveyLogo />
         </div>
         <div className="header-spacer" />
         <AdminBar />
