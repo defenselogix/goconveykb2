@@ -4,66 +4,31 @@
   align-items: center;
 }
 
-.admin-menu-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-.admin-menu-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.admin-user-info {
+.admin-bar-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--blue);
+  border: none;
+  border-radius: 4px;
   color: #fff;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.admin-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 100px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background: rgba(26, 215, 157, 0.2);
-  color: #1AD79D;
-}
-
-.admin-logout-btn {
-  padding: 4px 10px;
-  background: none;
-  border: 1px solid rgba(255, 100, 100, 0.3);
-  border-radius: 6px;
-  color: #ff8a8a;
-  font-size: 12px;
-  font-weight: 500;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all .15s;
+  white-space: nowrap;
+  letter-spacing: 0.06em;
 }
-.admin-logout-btn:hover {
-  background: rgba(255, 100, 100, 0.1);
-  border-color: rgba(255, 100, 100, 0.5);
-  color: #ff6b6b;
+.admin-bar-btn:hover {
+  background: var(--blue-hover);
+}
+.admin-bar-btn svg {
+  flex-shrink: 0;
 }
 
+/* ===================== ADMIN LOGIN MODAL ===================== */
 .admin-login-overlay {
   position: fixed;
   inset: 0;
@@ -72,58 +37,77 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: overlayFadeIn 0.15s ease;
   backdrop-filter: blur(4px);
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .admin-login-modal {
   background: #fff;
-  border-radius: 12px;
-  padding: 32px;
+  border-radius: 16px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  position: relative;
+  margin: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: modalSlideIn 0.2s ease;
+  overflow: hidden;
 }
 
-.admin-login-modal h2 {
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-login-header {
+  padding: 28px 28px 0;
+  text-align: center;
+}
+
+.admin-login-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(0, 92, 105, 0.08);
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+
+.admin-login-header h3 {
   font-size: 20px;
   font-weight: 700;
   color: #111827;
   margin-bottom: 4px;
+  letter-spacing: -0.02em;
 }
 
-.admin-login-modal .auth-subtitle {
-  font-size: 14px;
+.admin-login-header p {
+  font-size: 13.5px;
   color: #9ca3af;
-  margin-bottom: 20px;
 }
 
-.admin-login-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: #9ca3af;
-  cursor: pointer;
-  padding: 4px;
-  line-height: 1;
-}
-.admin-login-close:hover {
-  color: #111827;
+.admin-login-form {
+  padding: 24px 28px 28px;
 }
 
-.admin-login-modal .auth-label {
+.admin-login-label {
   display: block;
   font-size: 13px;
   font-weight: 600;
   color: #111827;
   margin-bottom: 6px;
-  margin-top: 14px;
 }
 
-.admin-login-modal .auth-input {
+.admin-login-input {
   width: 100%;
   padding: 10px 14px;
   border: 1px solid #e5e7eb;
@@ -131,19 +115,25 @@
   font-size: 14px;
   font-family: inherit;
   color: #111827;
+  background: #fff;
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
-}
-.admin-login-modal .auth-input:focus {
-  border-color: #1AD79D;
-  box-shadow: 0 0 0 3px rgba(26, 215, 157, 0.12);
+  margin-bottom: 16px;
 }
 
-.admin-login-modal .auth-btn {
+.admin-login-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(0, 92, 105, 0.12);
+}
+
+.admin-login-input::placeholder {
+  color: #d1d5db;
+}
+
+.admin-login-submit {
   width: 100%;
   padding: 11px 20px;
-  margin-top: 20px;
-  background: #1AD79D;
+  background: var(--blue);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -152,35 +142,72 @@
   font-family: inherit;
   cursor: pointer;
   transition: background 0.15s;
-}
-.admin-login-modal .auth-btn:hover {
-  background: #15C48E;
+  margin-top: 4px;
 }
 
-.admin-login-modal .auth-error {
+.admin-login-submit:hover {
+  background: var(--blue-hover);
+}
+
+.admin-login-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-login-error {
   background: #fef2f2;
   border: 1px solid #fecaca;
   color: #dc2626;
   padding: 10px 14px;
   border-radius: 8px;
   font-size: 13px;
-  margin-top: 12px;
+  margin-bottom: 16px;
 }
 
-.admin-login-modal .auth-footer {
-  text-align: center;
-  margin-top: 16px;
-  font-size: 13px;
-  color: #9ca3af;
+.admin-login-footer {
+  padding: 16px 28px;
+  background: #f9fafb;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  justify-content: center;
 }
-.admin-login-modal .auth-footer button {
+
+.admin-login-cancel {
   background: none;
   border: none;
-  color: #1AD79D;
-  font-weight: 500;
-  cursor: pointer;
+  color: #9ca3af;
   font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 6px;
+  transition: all 0.15s;
 }
-.admin-login-modal .auth-footer button:hover {
-  text-decoration: underline;
+
+.admin-login-cancel:hover {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+/* ===================== INLINE EDIT BUTTON ===================== */
+.inline-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  color: #9ca3af;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.inline-edit-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: rgba(0, 92, 105, 0.04);
 }
